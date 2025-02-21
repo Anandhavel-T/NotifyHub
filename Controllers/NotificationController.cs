@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Web;
+using System.Web.Mvc;
 
 namespace NotifyHub.Controllers
 {
-    public class NotificationController : ApiController
+    public class NotificationController : Controller
     {
+        // GET: Notification
+        public ActionResult Index()
+        {
+            return View();
+        }
     }
 }

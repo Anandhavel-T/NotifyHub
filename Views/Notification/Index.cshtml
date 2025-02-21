@@ -1,16 +1,16 @@
-﻿@model IEnumerable<NotifyHub.Models.Domain.User>
+﻿@model IEnumerable<NotifyHub.Models.Domain.Notification>
 
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Notifications";
 }
 
 <div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>User Management</h2>
-        <!-- Create User Button -->
-        @Html.Partial("_CreateUserPartial", new NotifyHub.Models.ViewModels.UserViewModel())
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUserModal">
-            <i class="bi bi-person-plus"></i> Add New User
+        <h2>Notification Management</h2>
+        <!-- Create Notification Button -->
+        @Html.Partial("_CreateNotificationPartial", new NotifyHub.Models.ViewModels.NotificationViewModel())
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createNotificationModal">
+            <i class="bi bi-person-plus"></i> Add New Notification
         </button>
     </div>
 
@@ -33,7 +33,7 @@
     @if (Model == null || !Model.Any())
     {
         <div class="alert alert-info text-center">
-            <h4>No users found.</h4>
+            <h4>No Notifications found.</h4>
         </div>
     }
     else
@@ -42,48 +42,57 @@
             <table class="table table-hover table-striped text-center">
                 <thead class="table-light">
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.FullName)</th>
-                        <th>@Html.DisplayNameFor(model => model.UserName)</th>
-                        <th>@Html.DisplayNameFor(model => model.Email)</th>
-                        <th>@Html.DisplayNameFor(model => model.IsActive)</th>
-                        <th>@Html.DisplayNameFor(model => model.LastLoginDate)</th>
-                        <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
-                        <th class="text-center">Actions</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Subject)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShortDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LongDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
+
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.FullName</td>
-                            <td>@item.UserName</td>
-                            <td>@item.Email</td>
                             <td>
-                                <span class="badge py-1 px-2 @(item.IsActive ? "bg-success" : "bg-danger")">
-                                    @(item.IsActive ? "Active" : "Inactive")
-                                </span>
+                                @Html.DisplayFor(modelItem => item.Subject)
                             </td>
-                            <td>@{item.LastLoginDate?.ToString("yyyy-MM-dd");}</td>
-                            <td>@item.CreatedAt.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ShortDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LongDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
                             <td class="text-center">
                                 <!-- Edit Button -->
-                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editUserModal-@item.Id">
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editNotificationModal-@item.Id">
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
 
                                 <!-- Delete Button -->
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteUserModal-@item.Id">
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteNotificationModal-@item.Id">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                        @Html.Partial("_EditUserPartial", item)
+                        @Html.Partial("_EditNotificationPartial", item)
 
-                        <!-- Delete User Modal -->
-                        <div class="modal fade" id="deleteUserModal-@item.Id" tabindex="-1">
+                        <!-- Delete Notification Modal -->
+                        <div class="modal fade" id="deleteNotificationModal-@item.Id" tabindex="-1">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
+                                    @using (Html.BeginForm("Delete", "Notifications", FormMethod.Post))
                                     {
                                         <div class="modal-header">
                                             <h5 class="modal-title">Confirm Deletion</h5>
@@ -91,7 +100,7 @@
                                         </div>
                                         <div class="modal-body">
                                             @Html.AntiForgeryToken()
-                                            <p>Are you sure you want to delete <strong>@item.FullName</strong>?</p>
+                                            <p>Are you sure you want to delete the Notification with the Title: <strong>@item.Subject</strong>?</p>
                                             @Html.Hidden("id", item.Id)
                                         </div>
                                         <div class="modal-footer">
@@ -108,5 +117,3 @@
         </div>
     }
 </div>
-
-

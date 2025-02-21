@@ -244,6 +244,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\NotificationApiController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
@@ -268,7 +269,9 @@
     <Compile Include="Models\Domain\Notification.cs" />
     <Compile Include="Models\Domain\NotificationRecipient.cs" />
     <Compile Include="Models\Domain\User.cs" />
+    <Compile Include="Models\ViewModels\CustomerViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\NotificationViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -299,6 +302,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -328,6 +332,11 @@
     <Content Include="Views\Auth\ForgotPassword.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Shared\_CreateUserPartial.cshtml" />
+    <Content Include="Views\Shared\_EditUserPartial.cshtml" />
+    <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Views\Shared\_CreateNotificationPartial.cshtml" />
+    <Content Include="Views\Shared\_EditNotificationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

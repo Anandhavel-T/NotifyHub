@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.ComponentModel;
 
 namespace NotifyHub.Models.Domain
 {
@@ -19,6 +20,12 @@ namespace NotifyHub.Models.Domain
 
         [MaxLength(20)]
         public string Phone { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        [DisplayName("URL of the Service")]
+        [DataType(DataType.Url)]
+        public string ConnectionDetail { get; set; }
 
         [DataType(DataType.DateTime)]
         [Column(TypeName = "datetime")]
