@@ -23,5 +23,6 @@ namespace NotifyHub.Models.ViewModels
         public NotificationStatus Status { get; set; }
 
         public NotificationPriority Priority { get; set; }
+        public object Id { get; internal set; }
     }
 }

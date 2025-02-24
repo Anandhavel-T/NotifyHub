@@ -13,5 +13,6 @@ namespace NotifyHub.Infrastructure.Services.Interfaces
         Task<User> GetUserByIdAsync(int id);
         Task<IEnumerable<User>> GetAllUsersAsync();
         string GenerateJwtToken(User user);
+        User GetByEmail(string email);
     }
 }

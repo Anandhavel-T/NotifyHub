@@ -1,15 +1,15 @@
-﻿using NotifyHub.Infrastructure.Services.Interfaces;
+﻿using Microsoft.IdentityModel.Tokens;
+using NotifyHub.Infrastructure.Repositories.Interfaces;
+using NotifyHub.Infrastructure.Services.Interfaces;
 using NotifyHub.Models.Domain;
+using System.Collections.Generic;
+using System.Configuration;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System;
-using NotifyHub.Infrastructure.Repositories.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Configuration;
-using System.Collections.Generic;
 using Microsoft.Ajax.Utilities;
 
 namespace NotifyHub.Infrastructure.Services.Implementations
@@ -57,7 +57,7 @@ namespace NotifyHub.Infrastructure.Services.Implementations
             user.IsActive = true;
 
             _userRepository.Insert(user);
-            _userRepository.Save();
+            await _userRepository.SaveAsync();
 
             await _emailService.SendEmailAsync(
                 user.Email,
@@ -70,8 +70,8 @@ namespace NotifyHub.Infrastructure.Services.Implementations
 
         public Task DeleteUserAsync(int id)
         {
-            _userRepository.Delete(id);
-            _userRepository.Save();
+            _userRepository.DeleteAsync(id);
+            _userRepository.SaveAsync();
             return Task.CompletedTask;
         }
 
@@ -97,20 +97,25 @@ namespace NotifyHub.Infrastructure.Services.Implementations
             return tokenHandler.WriteToken(token);
         }
 
-        public Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return Task.FromResult(_userRepository.GetAll());
+            return await _userRepository.GetAllAsync();
         }
 
-        public Task<User> GetUserByIdAsync(int id)
+        public User GetByEmail(string email)
         {
-            return Task.FromResult(_userRepository.GetById(id));
+            throw new NotImplementedException();
+        }
+
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            return await _userRepository.GetByIdAsync(id);
         }
 
         public Task UpdateUserAsync(User user)
         {
             _userRepository.Update(user);
-            _userRepository.Save();
+            _userRepository.SaveAsync();
             return Task.CompletedTask;
         }
 

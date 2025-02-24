@@ -1,0 +1,18 @@
+﻿@model NotifyHub.Models.ViewModels.CustomerEmailViewModel
+
+<div class="email-entry mb-3">
+    @Html.HiddenFor(m => m.Id)
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter email address" } })
+        <div class="input-group-text">
+            @Html.EditorFor(m => m.IsPrimary, new { htmlAttributes = new { @class = "form-check-input me-1" } })
+            @Html.LabelFor(m => m.IsPrimary, new { @class = "form-check-label mb-0" })
+        </div>
+        @if (Model.Id > 0)
+        {
+            @Html.ActionLink("Remove", "RemoveEmail", new { id = Model.Id }, new { @class = "btn btn-outline-danger" })
+        }
+    </div>
+    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+</div>

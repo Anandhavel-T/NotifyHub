@@ -7,7 +7,6 @@ using NotifyHub.Models.ViewModels;
 
 namespace NotifyHub.Controllers
 {
-    //[Authorize]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -23,27 +22,28 @@ namespace NotifyHub.Controllers
             return View(users);
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(UserViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = new User
-            {
-                FullName = model.FullName,
-                UserName = model.Username,
-                Email = model.Email,
-                //CreatedById = User.Identity.GetUserId<int>()
-            };
-
             try
             {
+                var user = new User
+                {
+                    FullName = model.FullName,
+                    UserName = model.Username,
+                    Email = model.Email
+                };
+
                 await _userService.CreateUserAsync(user, model.Password);
                 return RedirectToAction("Index");
             }
@@ -60,22 +60,23 @@ namespace NotifyHub.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UserViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = new User
-            {
-                FullName = model.FullName,
-                UserName = model.Username,
-                Email = model.Email,
-                //CreatedById = User.Identity.GetUserId<int>()
-            };
-
             try
             {
-                await _userService.CreateUserAsync(user, model.Password);
+                var user = await _userService.GetUserByIdAsync(model.Id);
+                if (user == null)
+                    return HttpNotFound();
+
+                user.FullName = model.FullName;
+                user.UserName = model.Username;
+                user.Email = model.Email;
+
+                await _userService.UpdateUserAsync(user);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -86,6 +87,7 @@ namespace NotifyHub.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
         {
             await _userService.DeleteUserAsync(id);

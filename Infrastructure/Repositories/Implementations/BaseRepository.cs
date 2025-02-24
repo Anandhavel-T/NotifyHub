@@ -3,6 +3,7 @@ using NotifyHub.Infrastructure.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NotifyHub.Infrastructure.Repositories.Implementations
 {
@@ -17,14 +18,14 @@ namespace NotifyHub.Infrastructure.Repositories.Implementations
             _dbSet = context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
-        public virtual TEntity GetById(int id)
+        public virtual async Task<TEntity> GetByIdAsync(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual void Insert(TEntity entity)
@@ -32,24 +33,27 @@ namespace NotifyHub.Infrastructure.Repositories.Implementations
             _dbSet.Add(entity);
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual void Update(TEntity entityToUpdate)
         {
-            _dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            if (_context.Entry(entityToUpdate).State == EntityState.Detached)
+            {
+                _dbSet.Attach(entityToUpdate);
+            }
+            _context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
-        public virtual void Delete(int id)
+        public virtual async Task DeleteAsync(int id)
         {
-            TEntity entity = _dbSet.Find(id);
+            TEntity entity = await _dbSet.FindAsync(id);
             if (entity != null)
             {
                 _dbSet.Remove(entity);
             }
         }
 
-        public virtual void Save()
+        public virtual async Task<bool> SaveAsync()
         {
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

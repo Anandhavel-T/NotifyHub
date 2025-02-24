@@ -3,53 +3,52 @@
 <div class="modal fade" id="createNotificationModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            @using (Html.BeginForm("Create", "Notifications", FormMethod.Post))
+            @using (Html.BeginForm("Create", "Notifications", FormMethod.Post, new { @class = "needs-validation" }))
             {
-                <div class="modal-header">
+                <div class="modal-header bg-success text-white">
                     <h5 class="modal-title">Create New Notification</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-dark-subtle">
                     @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
-                    <div class="form-horizontal px-4 py-2">
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group row my-2 row my-2">
-                            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col" })
-                            <div class="col">
-                                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="card border-0 shadow-lg">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="bi bi-info-circle me-2"></i>Notification Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-floating my-2">
+                                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control col", placeholder = Model.Subject } })
+                                @Html.LabelFor(model => model.Subject)
                                 @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
                             </div>
-                        </div>
 
-                        <div class="form-group row my-2">
-                            @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col" })
-                            <div class="col">
-                                @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
+                            <div class="form-floating my-2">
+                                @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control col", placeholder = Model.ShortDescription } })
+                                @Html.LabelFor(model => model.ShortDescription)
                                 @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
 
-                        <div class="form-group row my-2">
-                            @Html.LabelFor(model => model.LongDescription, htmlAttributes: new { @class = "control-label col" })
-                            <div class="col">
-                                @Html.EditorFor(model => model.LongDescription, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="form-floating my-2">
+                                @Html.EditorFor(model => model.LongDescription, new { htmlAttributes = new { @class = "form-control col", placeholder = Model.LongDescription } })
+                                @Html.LabelFor(model => model.LongDescription)
                                 @Html.ValidationMessageFor(model => model.LongDescription, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
 
-                        <div class="form-group row my-2">
-                            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col" })
-                            <div class="col">
-                                @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                            <div class="form-floating my-2">
+                                @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control col", placeholder = Model.ImageUrl } })
+                                @Html.LabelFor(model => model.ImageUrl)
                                 @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Send Notification</button>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn col btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-circle me-1"></i>Close</button>
+                    <button type="submit" class="btn col btn-primary"><i class="bi bi-check-circle me-1"></i>Send Notification</button>
                 </div>
             }
         </div>

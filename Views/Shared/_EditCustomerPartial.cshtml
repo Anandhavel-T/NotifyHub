@@ -1,0 +1,77 @@
+﻿@model NotifyHub.Models.ViewModels.CustomerViewModel
+
+<div class="modal fade" id="editCustomerModal-@Model.Id" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            @using (Html.BeginForm("Edit", "Customers", FormMethod.Post))
+            {
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-pencil-square me-2"></i>Edit Customer
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="bi bi-info-circle me-2"></i>Basic Information</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.LabelFor(m => m.Name)
+                                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        @Html.EditorFor(m => m.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.LabelFor(m => m.Phone)
+                                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                @Html.EditorFor(m => m.ConnectionDetail, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.LabelFor(m => m.ConnectionDetail)
+                                @Html.ValidationMessageFor(m => m.ConnectionDetail, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-check form-switch">
+                                @Html.EditorFor(m => m.IsActive, new { htmlAttributes = new { @class = "form-check-input" } })
+                                @Html.LabelFor(m => m.IsActive, new { @class = "form-check-label" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0"><i class="bi bi-envelope me-2"></i>Customer Emails</h6>
+                            @Html.ActionLink("Add Email", "AddEmailField", new { customerId = Model.Id }, new { @class = "btn btn-sm btn-outline-primary" })
+                        </div>
+                        <div class="card-body">
+                            <div id="emailContainer">
+                                @Html.EditorFor(m => m.CustomerEmails)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-1"></i>Save Changes
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -7,8 +7,8 @@
 <div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>User Management</h2>
-        <!-- Create User Button -->
-        @Html.Partial("_CreateCustomerPartial", new NotifyHub.Models.Domain.Customer())
+        <!-- Create Customer Button -->
+        @Html.Partial("_CreateCustomerPartial", new NotifyHub.Models.ViewModels.CustomerViewModel())
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCustomerModal">
             <i class="bi bi-person-plus"></i> Add New Customer
         </button>
@@ -85,10 +85,30 @@
                                 </button>
                             </td>
                         </tr>
-                        @Html.Partial("_EditCustomerPartial", item)
+
+                        var cvm = new NotifyHub.Models.ViewModels.CustomerViewModel
+                        {
+                            Id = item.Id,
+                            IsActive = item.IsActive,
+                            Name = item.Name,
+                            Phone = item.Phone,
+                            ConnectionDetail = item.ConnectionDetail,
+                            CustomerEmails = item.CustomerEmails
+                                .Select(i => new NotifyHub.Models.ViewModels.CustomerEmailViewModel
+                                {
+                                    Id = i.Id,
+                                    Email = i.Email,
+                                    IsActive = i.IsActive,
+                                    IsPrimary = i.IsPrimary
+                                })
+                                .ToList()
+                        };
+
+
+                        @Html.Partial("_EditCustomerPartial", cvm)
 
                         <!-- Delete User Modal -->
-                        <div class="modal fade" id="deleteUserModal-@item.Id" tabindex="-1">
+                        <div class="modal fade" id="deleteCustomerModal-@item.Id" tabindex="-1">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     @using (Html.BeginForm("Delete", "Customer", FormMethod.Post))
